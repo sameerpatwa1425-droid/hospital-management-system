@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Restore Dashboard</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            background-color: #f4f7fc;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 250px;
+            height: 100vh;
+            background-color: #111827;
+            color: white;
+            position: fixed;
+            padding: 20px;
+
+        }
+
+        .sidebar h2 {
+
+            text-align: center;
+            margin-bottom: 40px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            margin-bottom: 15px;
+
+        }
+
+        .sidebar ul li a {
+
+            text-decoration: none;
+            color: white;
+            display: block;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(255,255,255,0.1);
+
+            transition: 0.3s;
+
+        }
+
+        .sidebar ul li a:hover {
+
+            background-color: rgba(255,255,255,0.3);
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+            margin-bottom: 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .topbar h1 {
+
+            color: #111827;
+
+        }
+
+        /* TABLE */
+
+        .table-box {
+
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+        }
+
+        table th {
+
+            background-color: #111827;
+            color: white;
+            padding: 12px;
+
+        }
+
+        table td {
+
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+
+        }
+
+        button {
+
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            background-color: green;
+            color: white;
+            cursor: pointer;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Recovery Panel</h2>
+
+        <ul>
+
+            <li>
+                <a href="admin-dashboard.html">
+                    Audit Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="restore-dashboard.html">
+                    Restore Records
+                </a>
+            </li>
+
+            <li>
+                <a href="reception-dashboard.html">
+                    HMS Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>Restore Deleted Records</h1>
+
+            <h3>Enterprise Recovery Center</h3>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="table-box">
+
+            <h2>Deleted OPD Visits</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Visit ID</th>
+                        <th>Patient ID</th>
+                        <th>Patient Name</th>
+                        <th>Doctor</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="restoreTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function loadDeletedVisits() {
+
+            const response =
+                await fetch("/deletedVisits");
+
+            const visits =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("restoreTableBody");
+
+            tableBody.innerHTML = "";
+
+            visits.forEach(visit => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${visit.visitId}</td>
+
+                    <td>${visit.patientId}</td>
+
+                    <td>${visit.patientName}</td>
+
+                    <td>${visit.doctorName}</td>
+
+                    <td>${visit.status}</td>
+
+                    <td>
+
+                        <button onclick="restoreVisit(
+                            ${visit.visitId}
+                        )">
+
+                            Restore
+
+                        </button>
+
+                    </td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        async function restoreVisit(id) {
+
+            const response =
+                await fetch(
+                    `/restoreVisit/${id}`,
+                    {
+                        method: "PUT"
+                    }
+                );
+
+            const message =
+                await response.text();
+
+            alert(message);
+
+            loadDeletedVisits();
+
+        }
+
+        loadDeletedVisits();
+
+    </script>
+
+</body>
+
+</html>

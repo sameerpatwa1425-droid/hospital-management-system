@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Pharmacy Dashboard</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            min-height: 100vh;
+            background-color: #f3f4f6;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 260px;
+            background-color: #111827;
+            color: white;
+
+            padding: 30px 20px;
+
+            position: fixed;
+            height: 100%;
+
+        }
+
+        .sidebar h2 {
+
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 26px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            margin-bottom: 20px;
+
+        }
+
+        .sidebar ul li a {
+
+            text-decoration: none;
+            color: white;
+
+            font-size: 17px;
+
+            display: block;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            transition: 0.3s;
+
+        }
+
+        .sidebar ul li a:hover {
+
+            background-color: #2563eb;
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 260px;
+            padding: 30px;
+            width: 100%;
+
+        }
+
+        .topbar {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        .topbar h1 {
+
+            color: #111827;
+
+        }
+
+        .pharmacy-box {
+
+            background-color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0px 2px 8px rgba(0,0,0,0.1);
+
+        }
+
+        /* PATIENT CARDS */
+
+        .patient-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(350px, 1fr));
+
+            gap: 20px;
+
+        }
+
+        .patient-card {
+
+            background-color: white;
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0px 4px 12px rgba(0,0,0,0.08);
+
+        }
+
+        .patient-card h2 {
+
+            margin-bottom: 15px;
+            color: #111827;
+
+        }
+
+        .patient-card p {
+
+            margin-bottom: 10px;
+            color: #374151;
+
+        }
+
+        .button-group {
+
+            display: flex;
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-top: 15px;
+
+        }
+
+        button {
+
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background-color: #2563eb;
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+        button:hover {
+
+            background-color: #1e40af;
+
+        }
+
+        .invoice-btn {
+
+            background-color: #059669;
+
+        }
+
+        .invoice-btn:hover {
+
+            background-color: #047857;
+
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 900px) {
+
+            .sidebar {
+
+                width: 100%;
+                height: auto;
+                position: relative;
+
+            }
+
+            .main-content {
+
+                margin-left: 0;
+
+            }
+
+            body {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Pharmacy</h2>
+
+        <ul>
+
+            <li>
+                <a href="#">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Medicines
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Billing
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="/login.html">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>
+                Pharmacy Dashboard
+            </h1>
+
+            <div class="pharmacy-box">
+
+                Pharmacy Panel
+
+            </div>
+
+        </div>
+
+        <!-- PATIENT LIST -->
+
+        <div class="patient-container"
+             id="patientContainer">
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function loadPatients() {
+
+            const response =
+                await fetch("/opdVisits");
+
+            const visits =
+                await response.json();
+
+            const container =
+                document.getElementById(
+                    "patientContainer"
+                );
+
+            container.innerHTML = "";
+
+            visits.forEach(visit => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "patient-card";
+
+                card.innerHTML = `
+
+                    <h2>
+                        ${visit.patientName}
+                    </h2>
+
+                    <p>
+                        <b>Visit ID:</b>
+                        ${visit.visitId}
+                    </p>
+
+                    <p>
+                        <b>Doctor:</b>
+                        ${visit.doctorName}
+                    </p>
+
+                    <p>
+                        <b>Diagnosis:</b>
+                        ${visit.diagnosis || "Not Added"}
+                    </p>
+
+                    <p>
+                        <b>Medicines:</b>
+                        ${visit.medicines || "Not Added"}
+                    </p>
+
+                    <p>
+                        <b>Advice:</b>
+                        ${visit.advice || "Not Added"}
+                    </p>
+
+                    <p>
+                        <b>Pending Payment:</b>
+                        ₹${visit.remainingAmount}
+                    </p>
+
+                    <div class="button-group">
+
+                        <button
+                            class="invoice-btn"
+
+                            onclick="
+                                generateInvoice(
+                                    ${visit.visitId}
+                                )
+                            "
+                        >
+
+                            Invoice PDF
+
+                        </button>
+
+                        <button
+                            onclick="
+                                generateFullReport(
+                                    ${visit.visitId}
+                                )
+                            "
+                        >
+
+                            Full Report
+
+                        </button>
+
+                    </div>
+
+                `;
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+        function generateInvoice(id) {
+
+            window.open(
+                `/generateInvoice/${id}`,
+                "_blank"
+            );
+
+        }
+
+        function generateFullReport(id) {
+
+            window.open(
+                `/generateFullReport/${id}`,
+                "_blank"
+            );
+
+        }
+
+        loadPatients();
+
+    </script>
+
+</body>
+
+</html>

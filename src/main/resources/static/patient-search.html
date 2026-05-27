@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Patient Search</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            background-color: #f4f7fc;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 250px;
+            height: 100vh;
+            background-color: #1e3a8a;
+            color: white;
+            position: fixed;
+            padding: 20px;
+
+        }
+
+        .sidebar h2 {
+
+            text-align: center;
+            margin-bottom: 40px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: rgba(255,255,255,0.1);
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+        .sidebar ul li:hover {
+
+            background-color: rgba(255,255,255,0.3);
+
+        }
+
+        .sidebar ul li a {
+
+            text-decoration: none;
+            color: white;
+            display: block;
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        .topbar h1 {
+
+            color: #1e3a8a;
+
+        }
+
+        /* SEARCH BOX */
+
+        .search-box {
+
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+            margin-bottom: 30px;
+
+        }
+
+        input {
+
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+
+        }
+
+        button {
+
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1e3a8a;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        /* TABLE */
+
+        .table-box {
+
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+        }
+
+        table th {
+
+            background-color: #1e3a8a;
+            color: white;
+            padding: 12px;
+
+        }
+
+        table td {
+
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Reception Panel</h2>
+
+        <ul>
+
+            <li>
+                <a href="reception-dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="new-patient.html">
+                    New Patient
+                </a>
+            </li>
+
+            <li>
+                <a href="patient-search.html">
+                    Patient Search
+                </a>
+            </li>
+
+            <li>
+                <a href="opd-queue.html">
+                    OPD Queue
+                </a>
+            </li>
+
+            <li>
+                <a href="billing.html">
+                    Billing
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>Patient Search</h1>
+
+            <h3>Reception Department</h3>
+
+        </div>
+
+        <!-- SEARCH SECTION -->
+
+        <div class="search-box">
+
+            <h2>Search Old Patient</h2>
+
+            <input type="text"
+                   id="searchMobile"
+                   placeholder="Enter Mobile Number">
+
+            <button onclick="searchPatient()">
+
+                Search Patient
+
+            </button>
+
+        </div>
+
+        <!-- RESULTS TABLE -->
+
+        <div class="table-box">
+
+            <h2>Search Results</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Disease</th>
+                        <th>Patient Type</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="searchResultBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function searchPatient() {
+
+            const mobile =
+                document.getElementById("searchMobile").value;
+
+            const response =
+                await fetch("/patients");
+
+            const patients =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("searchResultBody");
+
+            tableBody.innerHTML = "";
+
+            const filteredPatients =
+                patients.filter(patient =>
+                    patient.mobileNumber === mobile);
+
+            filteredPatients.forEach(patient => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${patient.patientId}</td>
+                    <td>${patient.name}</td>
+                    <td>${patient.mobileNumber}</td>
+                    <td>${patient.disease}</td>
+                    <td>${patient.patientType}</td>
+
+                    <td>
+
+                        <button onclick="addToQueue(
+                            ${patient.patientId},
+                            '${patient.name}'
+                        )">
+
+                            Add To Queue
+
+                        </button>
+
+                    </td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        async function addToQueue(patientId, patientName) {
+
+            const doctorName =
+                prompt("Enter Doctor Name");
+
+            const tokenNumber =
+                prompt("Enter Token Number");
+
+            const consultationFee =
+                prompt("Enter Consultation Fee");
+
+            const opdVisit = {
+
+                patientId: patientId,
+
+                patientName: patientName,
+
+                doctorName: doctorName,
+
+                tokenNumber: parseInt(tokenNumber),
+
+                visitDate: new Date()
+                    .toISOString()
+                    .split('T')[0],
+
+                status: "Waiting",
+
+                consultationFee:
+                    parseFloat(consultationFee),
+
+                depositedAmount: 0,
+
+                remainingAmount:
+                    parseFloat(consultationFee)
+
+            };
+
+            await fetch("/addOpdVisit", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify(opdVisit)
+
+            });
+
+            alert("Patient Added To OPD Queue");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

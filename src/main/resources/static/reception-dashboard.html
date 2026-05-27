@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Reception Dashboard</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            min-height: 100vh;
+            background-color: #f3f4f6;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 260px;
+            background-color: #111827;
+            color: white;
+
+            padding: 30px 20px;
+
+            position: fixed;
+            height: 100%;
+
+        }
+
+        .sidebar h2 {
+
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 26px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            margin-bottom: 20px;
+
+        }
+
+        .sidebar ul li a {
+
+            text-decoration: none;
+            color: white;
+
+            font-size: 17px;
+
+            display: block;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            transition: 0.3s;
+
+        }
+
+        .sidebar ul li a:hover {
+
+            background-color: #2563eb;
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 260px;
+            padding: 30px;
+            width: 100%;
+
+        }
+
+        .topbar {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        .topbar h1 {
+
+            color: #111827;
+
+        }
+
+        .user-box {
+
+            background-color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0px 2px 8px rgba(0,0,0,0.1);
+
+        }
+
+        /* FORM */
+
+        .form-container {
+
+            background-color: white;
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0px 4px 12px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+
+        }
+
+        .form-container h2 {
+
+            margin-bottom: 20px;
+
+        }
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 15px;
+
+        }
+
+        input {
+
+            padding: 12px;
+
+            border-radius: 8px;
+            border: 1px solid #ccc;
+
+        }
+
+        button {
+
+            margin-top: 20px;
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background-color: #2563eb;
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+        button:hover {
+
+            background-color: #1e40af;
+
+        }
+
+        /* QUEUE */
+
+        .queue-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 20px;
+
+        }
+
+        .queue-card {
+
+            background-color: white;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0px 4px 12px rgba(0,0,0,0.08);
+
+        }
+
+        .queue-card h3 {
+
+            margin-bottom: 12px;
+
+            color: #111827;
+
+        }
+
+        .queue-card p {
+
+            margin-bottom: 8px;
+
+            color: #374151;
+
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 900px) {
+
+            .sidebar {
+
+                width: 100%;
+                height: auto;
+                position: relative;
+
+            }
+
+            .main-content {
+
+                margin-left: 0;
+
+            }
+
+            body {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Reception</h2>
+
+        <ul>
+
+            <li>
+                <a href="#">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Add Patient
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Billing
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Queue
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="/login.html">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>
+                Reception Dashboard
+            </h1>
+
+            <div class="user-box">
+
+                Reception Panel
+
+            </div>
+
+        </div>
+
+        <!-- PATIENT FORM -->
+
+        <div class="form-container">
+
+            <h2>Add OPD Patient</h2>
+
+            <div class="form-grid">
+
+                <input
+                    type="number"
+                    id="patientId"
+                    placeholder="Patient ID"
+                >
+
+                <input
+                    type="text"
+                    id="patientName"
+                    placeholder="Patient Name"
+                >
+
+                <input
+                    type="text"
+                    id="doctorName"
+                    placeholder="Doctor Name"
+                >
+
+                <input
+                    type="number"
+                    id="tokenNumber"
+                    placeholder="Token Number"
+                >
+
+                <input
+                    type="number"
+                    id="consultationFee"
+                    placeholder="Consultation Fee"
+                >
+
+            </div>
+
+            <button onclick="addPatient()">
+
+                Add Patient
+
+            </button>
+
+        </div>
+
+        <!-- QUEUE -->
+
+        <div class="queue-container"
+             id="queueContainer">
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function addPatient() {
+
+            const patient = {
+
+                patientId:
+                    parseInt(
+                        document.getElementById(
+                            "patientId"
+                        ).value
+                    ),
+
+                patientName:
+                    document.getElementById(
+                        "patientName"
+                    ).value,
+
+                doctorName:
+                    document.getElementById(
+                        "doctorName"
+                    ).value,
+
+                tokenNumber:
+                    parseInt(
+                        document.getElementById(
+                            "tokenNumber"
+                        ).value
+                    ),
+
+                consultationFee:
+                    parseFloat(
+                        document.getElementById(
+                            "consultationFee"
+                        ).value
+                    ),
+
+                depositedAmount: 0,
+
+                remainingAmount:
+                    parseFloat(
+                        document.getElementById(
+                            "consultationFee"
+                        ).value
+                    ),
+
+                status: "Pending"
+
+            };
+
+            await fetch("/addOpdVisit", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify(patient)
+
+            });
+
+            alert("Patient Added Successfully");
+
+            loadQueue();
+
+        }
+
+        async function loadQueue() {
+
+            const response =
+                await fetch("/opdVisits");
+
+            const visits =
+                await response.json();
+
+            const container =
+                document.getElementById(
+                    "queueContainer"
+                );
+
+            container.innerHTML = "";
+
+            visits.forEach(visit => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "queue-card";
+
+                card.innerHTML = `
+
+                    <h3>
+                        ${visit.patientName}
+                    </h3>
+
+                    <p>
+                        <b>Visit ID:</b>
+                        ${visit.visitId}
+                    </p>
+
+                    <p>
+                        <b>Doctor:</b>
+                        ${visit.doctorName}
+                    </p>
+
+                    <p>
+                        <b>Token:</b>
+                        ${visit.tokenNumber}
+                    </p>
+
+                    <p>
+                        <b>Status:</b>
+                        ${visit.status}
+                    </p>
+
+                    <p>
+                        <b>Fee:</b>
+                        ₹${visit.consultationFee}
+                    </p>
+
+                `;
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+        loadQueue();
+
+    </script>
+
+</body>
+
+</html>

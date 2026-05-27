@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>OPD Queue Management</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            background-color: #f4f7fc;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 250px;
+            height: 100vh;
+            background-color: #1e3a8a;
+            color: white;
+            position: fixed;
+            padding: 20px;
+
+        }
+
+        .sidebar h2 {
+
+            text-align: center;
+            margin-bottom: 40px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: rgba(255,255,255,0.1);
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+        .sidebar ul li:hover {
+
+            background-color: rgba(255,255,255,0.3);
+
+        }
+
+        .sidebar ul li a {
+
+            text-decoration: none;
+            color: white;
+            display: block;
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        .topbar h1 {
+
+            color: #1e3a8a;
+
+        }
+
+        /* TABLE SECTION */
+
+        .table-box {
+
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+        }
+
+        table th {
+
+            background-color: #1e3a8a;
+            color: white;
+            padding: 12px;
+
+        }
+
+        table td {
+
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+
+        }
+
+        button {
+
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin: 2px;
+
+        }
+
+        .complete-btn {
+
+            background-color: green;
+
+        }
+
+        .delete-btn {
+
+            background-color: red;
+
+        }
+
+        .waiting {
+
+            color: orange;
+            font-weight: bold;
+
+        }
+
+        .completed {
+
+            color: green;
+            font-weight: bold;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Reception Panel</h2>
+
+        <ul>
+
+            <li>
+                <a href="reception-dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="new-patient.html">
+                    New Patient
+                </a>
+            </li>
+
+            <li>
+                <a href="patient-search.html">
+                    Patient Search
+                </a>
+            </li>
+
+            <li>
+                <a href="opd-queue.html">
+                    OPD Queue
+                </a>
+            </li>
+
+            <li>
+                <a href="billing.html">
+                    Billing
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>OPD Queue Management</h1>
+
+            <h3>Reception Department</h3>
+
+        </div>
+
+        <!-- QUEUE TABLE -->
+
+        <div class="table-box">
+
+            <h2>Today's OPD Queue</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Token</th>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Visit Date</th>
+                        <th>Status</th>
+                        <th>Fee</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="opdTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function loadOpdVisits() {
+
+            const response =
+                await fetch("/opdVisits");
+
+            const visits =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("opdTableBody");
+
+            tableBody.innerHTML = "";
+
+            visits.forEach(visit => {
+
+                const statusClass =
+                    visit.status === "Completed"
+                    ? "completed"
+                    : "waiting";
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${visit.tokenNumber}</td>
+
+                    <td>${visit.patientName}</td>
+
+                    <td>${visit.doctorName}</td>
+
+                    <td>${visit.visitDate}</td>
+
+                    <td class="${statusClass}">
+                        ${visit.status}
+                    </td>
+
+                    <td>${visit.consultationFee}</td>
+
+                    <td>
+
+                        <button class="complete-btn"
+                            onclick="completeVisit(
+                                ${visit.visitId}
+                            )">
+
+                            Complete
+
+                        </button>
+
+                        <button class="delete-btn"
+                            onclick="deleteVisit(
+                                ${visit.visitId}
+                            )">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        async function completeVisit(id) {
+
+            alert(
+                "Visit marked as completed"
+            );
+
+        }
+
+        async function deleteVisit(id) {
+
+            await fetch(`/deleteOpdVisit/${id}`, {
+
+                method: "DELETE"
+
+            });
+
+            loadOpdVisits();
+
+        }
+
+        loadOpdVisits();
+
+    </script>
+
+</body>
+
+</html>

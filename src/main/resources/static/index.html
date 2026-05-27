@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Hospital Management System</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            background-color: #f4f7fc;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 250px;
+            height: 100vh;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 20px;
+            position: fixed;
+
+        }
+
+        .sidebar h2 {
+
+            text-align: center;
+            margin-bottom: 40px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            cursor: pointer;
+
+        }
+
+        .sidebar ul li:hover {
+
+            background-color: rgba(255,255,255,0.2);
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+
+        }
+
+        .navbar {
+
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+
+        }
+
+        .section {
+
+            display: none;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+        .active-section {
+
+            display: block;
+
+        }
+
+        h2 {
+
+            margin-bottom: 20px;
+            color: #1e3a8a;
+
+        }
+
+        input {
+
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+
+        }
+
+        button {
+
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+        }
+
+        .register-btn {
+
+            background-color: #1e3a8a;
+            color: white;
+
+        }
+
+        .delete-btn {
+
+            background-color: red;
+            color: white;
+
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+        }
+
+        table th {
+
+            background-color: #1e3a8a;
+            color: white;
+            padding: 12px;
+
+        }
+
+        table td {
+
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Hospital Admin</h2>
+
+        <ul>
+
+            <li onclick="showSection('dashboardSection')">
+                Dashboard
+            </li>
+
+            <li onclick="showSection('patientSection')">
+                Patients
+            </li>
+
+            <li onclick="showSection('doctorSection')">
+                Doctors
+            </li>
+
+            <li onclick="showSection('appointmentSection')">
+                Appointments
+            </li>
+
+            <li onclick="logout()">
+                Logout
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <div class="navbar">
+
+            <h1>Hospital Management Dashboard</h1>
+
+        </div>
+
+        <!-- DASHBOARD SECTION -->
+
+        <div id="dashboardSection"
+             class="section active-section">
+
+            <h2>Dashboard Overview</h2>
+
+            <p>Welcome to Hospital Management System</p>
+
+        </div>
+
+        <!-- PATIENT SECTION -->
+
+        <div id="patientSection"
+             class="section">
+
+            <h2>Patient Registration</h2>
+
+            <form id="patientForm">
+
+                <input type="text"
+                       id="name"
+                       placeholder="Patient Name"
+                       required>
+
+                <input type="number"
+                       id="age"
+                       placeholder="Age"
+                       required>
+
+                <input type="text"
+                       id="gender"
+                       placeholder="Gender"
+                       required>
+
+                <input type="text"
+                       id="disease"
+                       placeholder="Disease"
+                       required>
+
+                <button type="submit"
+                        class="register-btn">
+
+                    Add Patient
+
+                </button>
+
+            </form>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Disease</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="patientTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- DOCTOR SECTION -->
+
+        <div id="doctorSection"
+             class="section">
+
+            <h2>Doctor Management</h2>
+
+            <form id="doctorForm">
+
+                <input type="text"
+                       id="doctorName"
+                       placeholder="Doctor Name"
+                       required>
+
+                <input type="text"
+                       id="specialization"
+                       placeholder="Specialization"
+                       required>
+
+                <input type="number"
+                       id="experience"
+                       placeholder="Experience"
+                       required>
+
+                <input type="text"
+                       id="availability"
+                       placeholder="Availability"
+                       required>
+
+                <button type="submit"
+                        class="register-btn">
+
+                    Add Doctor
+
+                </button>
+
+            </form>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Experience</th>
+                        <th>Availability</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="doctorTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- APPOINTMENT SECTION -->
+
+        <div id="appointmentSection"
+             class="section">
+
+            <h2>Appointment Booking</h2>
+
+            <form id="appointmentForm">
+
+                <input type="text"
+                       id="patientName"
+                       placeholder="Patient Name"
+                       required>
+
+                <input type="text"
+                       id="doctorAppointmentName"
+                       placeholder="Doctor Name"
+                       required>
+
+                <input type="date"
+                       id="appointmentDate"
+                       required>
+
+                <input type="text"
+                       id="status"
+                       placeholder="Status"
+                       required>
+
+                <button type="submit"
+                        class="register-btn">
+
+                    Book Appointment
+
+                </button>
+
+            </form>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="appointmentTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function checkLogin() {
+
+            const response =
+                await fetch("/checkSession");
+
+            const result =
+                await response.json();
+
+            if(!result.loggedIn) {
+
+                window.location.href = "/login.html";
+
+            }
+
+        }
+
+        checkLogin();
+
+        function showSection(sectionId) {
+
+            const sections =
+                document.querySelectorAll(".section");
+
+            sections.forEach(section => {
+
+                section.classList.remove("active-section");
+
+            });
+
+            document.getElementById(sectionId)
+                .classList.add("active-section");
+
+        }
+
+        /* PATIENT */
+
+        document.getElementById("patientForm")
+            .addEventListener("submit",
+            async function(event) {
+
+            event.preventDefault();
+
+            const patient = {
+
+                name:
+                    document.getElementById("name").value,
+
+                age:
+                    parseInt(document.getElementById("age").value),
+
+                gender:
+                    document.getElementById("gender").value,
+
+                disease:
+                    document.getElementById("disease").value
+
+            };
+
+            await fetch("/addPatient", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify(patient)
+
+            });
+
+            loadPatients();
+
+        });
+
+        async function loadPatients() {
+
+            const response =
+                await fetch("/patients");
+
+            const patients =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("patientTableBody");
+
+            tableBody.innerHTML = "";
+
+            patients.forEach(patient => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${patient.patientId}</td>
+                    <td>${patient.name}</td>
+                    <td>${patient.age}</td>
+                    <td>${patient.gender}</td>
+                    <td>${patient.disease}</td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        /* DOCTOR */
+
+        document.getElementById("doctorForm")
+            .addEventListener("submit",
+            async function(event) {
+
+            event.preventDefault();
+
+            const doctor = {
+
+                name:
+                    document.getElementById("doctorName").value,
+
+                specialization:
+                    document.getElementById("specialization").value,
+
+                experience:
+                    parseInt(document.getElementById("experience").value),
+
+                availability:
+                    document.getElementById("availability").value
+
+            };
+
+            await fetch("/addDoctor", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify(doctor)
+
+            });
+
+            loadDoctors();
+
+        });
+
+        async function loadDoctors() {
+
+            const response =
+                await fetch("/doctors");
+
+            const doctors =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("doctorTableBody");
+
+            tableBody.innerHTML = "";
+
+            doctors.forEach(doctor => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${doctor.doctorId}</td>
+                    <td>${doctor.name}</td>
+                    <td>${doctor.specialization}</td>
+                    <td>${doctor.experience}</td>
+                    <td>${doctor.availability}</td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        /* APPOINTMENT */
+
+        document.getElementById("appointmentForm")
+            .addEventListener("submit",
+            async function(event) {
+
+            event.preventDefault();
+
+            const appointment = {
+
+                patientName:
+                    document.getElementById("patientName").value,
+
+                doctorName:
+                    document.getElementById("doctorAppointmentName").value,
+
+                appointmentDate:
+                    document.getElementById("appointmentDate").value,
+
+                status:
+                    document.getElementById("status").value
+
+            };
+
+            await fetch("/addAppointment", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify(appointment)
+
+            });
+
+            loadAppointments();
+
+        });
+
+        async function loadAppointments() {
+
+            const response =
+                await fetch("/appointments");
+
+            const appointments =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("appointmentTableBody");
+
+            tableBody.innerHTML = "";
+
+            appointments.forEach(appointment => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${appointment.appointmentId}</td>
+                    <td>${appointment.patientName}</td>
+                    <td>${appointment.doctorName}</td>
+                    <td>${appointment.appointmentDate}</td>
+                    <td>${appointment.status}</td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        async function logout() {
+
+            await fetch("/logout", {
+
+                method: "POST"
+
+            });
+
+            window.location.href = "/login.html";
+
+        }
+
+        loadPatients();
+        loadDoctors();
+        loadAppointments();
+
+    </script>
+
+</body>
+
+</html>

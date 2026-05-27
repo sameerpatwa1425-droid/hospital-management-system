@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Consultation History</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            display: flex;
+            background-color: #f4f7fc;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            width: 250px;
+            height: 100vh;
+            background-color: #1e3a8a;
+            color: white;
+            position: fixed;
+            padding: 20px;
+
+        }
+
+        .sidebar h2 {
+
+            text-align: center;
+            margin-bottom: 40px;
+
+        }
+
+        .sidebar ul {
+
+            list-style: none;
+
+        }
+
+        .sidebar ul li {
+
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: rgba(255,255,255,0.1);
+
+        }
+
+        .sidebar ul li a {
+
+            text-decoration: none;
+            color: white;
+            display: block;
+
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content {
+
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        .topbar h1 {
+
+            color: #1e3a8a;
+
+        }
+
+        /* SEARCH BOX */
+
+        .search-box {
+
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+            margin-bottom: 30px;
+
+        }
+
+        input {
+
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+
+        }
+
+        button {
+
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1e3a8a;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        /* TABLE */
+
+        .table-box {
+
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+        }
+
+        table th {
+
+            background-color: #1e3a8a;
+            color: white;
+            padding: 12px;
+
+        }
+
+        table td {
+
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Doctor Panel</h2>
+
+        <ul>
+
+            <li>
+                <a href="doctor-dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="consultation-history.html">
+                    Consultation History
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>Consultation History</h1>
+
+            <h3>Medical Records Department</h3>
+
+        </div>
+
+        <!-- SEARCH SECTION -->
+
+        <div class="search-box">
+
+            <h2>Search Patient History</h2>
+
+            <input type="number"
+                   id="searchPatientId"
+                   placeholder="Enter Patient ID">
+
+            <button onclick="searchHistory()">
+
+                Search History
+
+            </button>
+
+        </div>
+
+        <!-- HISTORY TABLE -->
+
+        <div class="table-box">
+
+            <h2>Previous Consultations</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Diagnosis</th>
+                        <th>Prescription</th>
+                        <th>Treatment Notes</th>
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="historyTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function searchHistory() {
+
+            const patientId =
+                parseInt(
+                    document.getElementById("searchPatientId").value
+                );
+
+            const response =
+                await fetch("/consultations");
+
+            const consultations =
+                await response.json();
+
+            const tableBody =
+                document.getElementById("historyTableBody");
+
+            tableBody.innerHTML = "";
+
+            const filteredConsultations =
+                consultations.filter(consultation =>
+                    consultation.patientId === patientId
+                );
+
+            filteredConsultations.forEach(consultation => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${consultation.consultationId}</td>
+
+                    <td>${consultation.patientName}</td>
+
+                    <td>${consultation.doctorName}</td>
+
+                    <td>${consultation.diagnosis}</td>
+
+                    <td>${consultation.prescription}</td>
+
+                    <td>${consultation.treatmentNotes}</td>
+
+                    <td>${consultation.consultationDate}</td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

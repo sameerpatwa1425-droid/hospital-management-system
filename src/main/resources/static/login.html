@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Hospital Login</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+
+        }
+
+        body {
+
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                to right,
+                #1e3a8a,
+                #2563eb
+            );
+
+        }
+
+        .login-container {
+
+            width: 400px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.2);
+
+        }
+
+        .login-container h1 {
+
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1e3a8a;
+
+        }
+
+        input {
+
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+
+        }
+
+        button {
+
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+
+            border: none;
+            border-radius: 6px;
+
+            background-color: #1e3a8a;
+            color: white;
+
+            font-size: 16px;
+            cursor: pointer;
+
+        }
+
+        .demo-box {
+
+            margin-top: 25px;
+            background-color: #f4f7fc;
+            padding: 15px;
+            border-radius: 8px;
+
+        }
+
+        .demo-box h3 {
+
+            margin-bottom: 10px;
+            color: #1e3a8a;
+
+        }
+
+        .demo-box p {
+
+            margin-bottom: 8px;
+            font-size: 14px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>Hospital Management System</h1>
+
+        <input type="text"
+               id="username"
+               placeholder="Enter Username">
+
+        <input type="password"
+               id="password"
+               placeholder="Enter Password">
+
+        <button onclick="login()">
+
+            Login
+
+        </button>
+
+        <!-- DEMO USERS -->
+
+        <div class="demo-box">
+
+            <h3>Demo Credentials</h3>
+
+            <p>
+                <b>Admin:</b>
+                admin / admin123
+            </p>
+
+            <p>
+                <b>Reception:</b>
+                reception / reception123
+            </p>
+
+            <p>
+                <b>Doctor:</b>
+                doctor / doctor123
+            </p>
+
+            <p>
+                <b>Pharmacy:</b>
+                pharmacy / pharmacy123
+            </p>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function login() {
+
+            const username =
+                document.getElementById("username").value;
+
+            const password =
+                document.getElementById("password").value;
+
+            /* ADMIN */
+
+            if(
+                username === "admin"
+                &&
+                password === "admin123"
+            ) {
+
+                window.location.href =
+                    "reception-dashboard.html";
+
+            }
+
+            /* RECEPTION */
+
+            else if(
+                username === "reception"
+                &&
+                password === "reception123"
+            ) {
+
+                window.location.href =
+                    "reception-dashboard.html";
+
+            }
+
+            /* DOCTOR */
+
+            else if(
+                username === "doctor"
+                &&
+                password === "doctor123"
+            ) {
+
+                window.location.href =
+                    "doctor-dashboard.html";
+
+            }
+
+            /* PHARMACY */
+
+            else if(
+                username === "pharmacy"
+                &&
+                password === "pharmacy123"
+            ) {
+
+                window.location.href =
+                    "pharmacy-dashboard.html";
+
+            }
+
+            else {
+
+                alert("Invalid Username or Password");
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
