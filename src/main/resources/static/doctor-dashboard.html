@@ -2,496 +2,197 @@
 <html>
 
 <head>
-
+    <meta charset="UTF-8">
     <title>Doctor Dashboard</title>
-
     <style>
-
         * {
-
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial;
-
+            font-family: Arial
         }
 
         body {
-
             display: flex;
-            min-height: 100vh;
-            background-color: #f3f4f6;
-
+            height: 100vh;
+            background: #f3f4f6
         }
 
-        /* SIDEBAR */
-
         .sidebar {
-
-            width: 260px;
-            background-color: #111827;
-            color: white;
-
-            padding: 30px 20px;
-
-            position: fixed;
-            height: 100%;
-
+            width: 250px;
+            background: #111827;
+            color: #fff;
+            padding: 20px
         }
 
         .sidebar h2 {
-
-            margin-bottom: 40px;
             text-align: center;
-            font-size: 26px;
-
+            margin-bottom: 20px
         }
 
-        .sidebar ul {
-
-            list-style: none;
-
-        }
-
-        .sidebar ul li {
-
-            margin-bottom: 20px;
-
-        }
-
-        .sidebar ul li a {
-
-            text-decoration: none;
-            color: white;
-
-            font-size: 17px;
-
-            display: block;
-
-            padding: 12px 15px;
-
-            border-radius: 8px;
-
-            transition: 0.3s;
-
-        }
-
-        .sidebar ul li a:hover {
-
-            background-color: #2563eb;
-
-        }
-
-        /* MAIN CONTENT */
-
-        .main-content {
-
-            margin-left: 260px;
-            padding: 30px;
-            width: 100%;
-
+        .main {
+            flex: 1;
+            padding: 20px
         }
 
         .topbar {
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            margin-bottom: 30px;
-
+            margin-bottom: 20px
         }
 
-        .topbar h1 {
-
-            color: #111827;
-
-        }
-
-        .doctor-box {
-
-            background-color: white;
-
-            padding: 10px 18px;
-
-            border-radius: 10px;
-
-            box-shadow:
-                0px 2px 8px rgba(0,0,0,0.1);
-
-        }
-
-        /* VISITS */
-
-        .visit-container {
-
+        .layout {
             display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(350px, 1fr));
-
+            grid-template-columns: 320px 1fr;
             gap: 20px;
-
+            height: calc(100vh - 100px)
         }
 
-        .visit-card {
-
-            background-color: white;
-
-            padding: 25px;
-
-            border-radius: 16px;
-
-            box-shadow:
-                0px 4px 12px rgba(0,0,0,0.08);
-
+        .queue,
+        .panel {
+            background: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            overflow: auto
         }
 
-        .visit-card h2 {
-
-            margin-bottom: 15px;
-            color: #111827;
-
-        }
-
-        .visit-card p {
-
-            margin-bottom: 8px;
-            color: #374151;
-
-        }
-
-        textarea {
-
-            width: 100%;
-
-            margin-top: 12px;
-
+        .patient-item {
             padding: 12px;
-
+            border: 1px solid #ddd;
             border-radius: 8px;
-            border: 1px solid #ccc;
-
-            resize: vertical;
-
+            margin-bottom: 10px;
+            cursor: pointer
         }
 
-        .button-group {
+        .patient-item:hover,
+        .active {
+            background: #dbeafe
+        }
 
-            display: flex;
-            gap: 10px;
-
-            flex-wrap: wrap;
-
-            margin-top: 15px;
-
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 12px
         }
 
         button {
-
-            padding: 12px 18px;
-
+            padding: 10px 15px;
             border: none;
-
             border-radius: 8px;
-
-            background-color: #2563eb;
-
-            color: white;
-
             cursor: pointer;
-
-            transition: 0.3s;
-
+            background: #2563eb;
+            color: white;
+            margin-right: 10px
         }
 
-        button:hover {
-
-            background-color: #1e40af;
-
+        .green {
+            background: #059669
         }
-
-        .pdf-btn {
-
-            background-color: #059669;
-
-        }
-
-        .pdf-btn:hover {
-
-            background-color: #047857;
-
-        }
-
-        /* RESPONSIVE */
-
-        @media(max-width: 900px) {
-
-            .sidebar {
-
-                width: 100%;
-                height: auto;
-                position: relative;
-
-            }
-
-            .main-content {
-
-                margin-left: 0;
-
-            }
-
-            body {
-
-                flex-direction: column;
-
-            }
-
-        }
-
     </style>
-
 </head>
 
 <body>
-
-    <!-- SIDEBAR -->
-
     <div class="sidebar">
-
         <h2>Doctor Panel</h2>
-
-        <ul>
-
-            <li>
-                <a href="#">
-                    Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    Consultations
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    Prescriptions
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    Reports
-                </a>
-            </li>
-
-            <li>
-                <a href="/login.html">
-                    Logout
-                </a>
-            </li>
-
-        </ul>
-
     </div>
 
-    <!-- MAIN CONTENT -->
-
-    <div class="main-content">
-
-        <!-- TOPBAR -->
-
+    <div class="main">
         <div class="topbar">
+            <h1>Doctor Consultation Dashboard</h1>
+        </div>
 
-            <h1>
-                Doctor Consultation Dashboard
-            </h1>
-
-            <div class="doctor-box">
-
-                Doctor Panel
-
+        <div class="layout">
+            <div class="queue">
+                <h3>Waiting Patients</h3>
+                <div id="queueList"></div>
             </div>
 
+            <div class="panel">
+                <h2 id="patientName">Select Patient</h2>
+                <p><b>Visit ID:</b> <span id="visitId"></span></p>
+                <p><b>Doctor:</b> <span id="doctorName"></span></p>
+
+                <textarea id="diagnosis" placeholder="Diagnosis"></textarea>
+                <textarea id="medicines" placeholder="Medicines"></textarea>
+                <textarea id="advice" placeholder="Advice"></textarea>
+
+                <button onclick="saveConsultation()">Save Consultation</button>
+                <button class="green" onclick="generatePrescription()">Generate Prescription</button>
+            </div>
         </div>
-
-        <!-- VISITS -->
-
-        <div class="visit-container"
-             id="visitContainer">
-
-        </div>
-
     </div>
 
     <script>
+        let visits = [];
+        let selectedVisit = null;
 
-        async function loadVisits() {
+        async function loadQueue() {
+            const response = await fetch('/opdVisits');
+            visits = await response.json();
 
-            const response =
-                await fetch("/opdVisits");
+            visits = visits.filter(v => !v.status || v.status.toLowerCase() !== 'completed');
 
-            const visits =
-                await response.json();
+            const queue = document.getElementById('queueList');
+            queue.innerHTML = '';
 
-            const container =
-                document.getElementById(
-                    "visitContainer"
-                );
-
-            container.innerHTML = "";
-
-            visits.forEach(visit => {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "visit-card";
-
-                card.innerHTML = `
-
-                    <h2>
-                        ${visit.patientName}
-                    </h2>
-
-                    <p>
-                        <b>Visit ID:</b>
-                        ${visit.visitId}
-                    </p>
-
-                    <p>
-                        <b>Doctor:</b>
-                        ${visit.doctorName}
-                    </p>
-
-                    <p>
-                        <b>Status:</b>
-                        ${visit.status}
-                    </p>
-
-                    <textarea
-                        id="diagnosis-${visit.visitId}"
-                        placeholder="Enter Diagnosis"
-                    >${visit.diagnosis || ""}</textarea>
-
-                    <textarea
-                        id="medicines-${visit.visitId}"
-                        placeholder="Enter Medicines"
-                    >${visit.medicines || ""}</textarea>
-
-                    <textarea
-                        id="advice-${visit.visitId}"
-                        placeholder="Enter Advice"
-                    >${visit.advice || ""}</textarea>
-
-                    <div class="button-group">
-
-                        <button onclick="
-                            saveConsultation(
-                                ${visit.visitId}
-                            )
-                        ">
-
-                            Save Consultation
-
-                        </button>
-
-                        <button
-                            class="pdf-btn"
-
-                            onclick="
-                                generatePrescription(
-                                    ${visit.visitId}
-                                )
-                            "
-                        >
-
-                            Prescription PDF
-
-                        </button>
-
-                    </div>
-
-                `;
-
-                container.appendChild(card);
-
+            visits.forEach(v => {
+                const div = document.createElement('div');
+                div.className = 'patient-item';
+                div.innerHTML = `<b>${v.patientName}</b><br>Token: ${v.tokenNumber || '-'} `;
+                div.onclick = () => selectPatient(v.visitId);
+                queue.appendChild(div);
             });
 
+            if (!selectedVisit && visits.length > 0) {
+                selectPatient(visits[0].visitId);
+            }
         }
 
-        async function saveConsultation(id) {
+        function selectPatient(id) {
+            selectedVisit = visits.find(v => v.visitId === id);
+            if (!selectedVisit) return;
 
-            const diagnosis =
-                document.getElementById(
-                    `diagnosis-${id}`
-                ).value;
-
-            const medicines =
-                document.getElementById(
-                    `medicines-${id}`
-                ).value;
-
-            const advice =
-                document.getElementById(
-                    `advice-${id}`
-                ).value;
-
-            const response =
-                await fetch(
-                    `/saveConsultation/${id}`,
-                    {
-
-                        method: "PUT",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json"
-
-                        },
-
-                        body: JSON.stringify({
-
-                            diagnosis:
-                                diagnosis,
-
-                            medicines:
-                                medicines,
-
-                            advice:
-                                advice
-
-                        })
-
-                    }
-                );
-
-            const message =
-                await response.text();
-
-            alert(message);
-
-            loadVisits();
-
+            document.getElementById('patientName').innerText = selectedVisit.patientName;
+            document.getElementById('visitId').innerText = selectedVisit.visitId;
+            document.getElementById('doctorName').innerText = selectedVisit.doctorName;
+            document.getElementById('diagnosis').value = selectedVisit.diagnosis || '';
+            document.getElementById('medicines').value = selectedVisit.medicines || '';
+            document.getElementById('advice').value = selectedVisit.advice || '';
         }
 
-        function generatePrescription(id) {
+        async function saveConsultation() {
+            if (!selectedVisit) return;
 
-            window.open(
-                `/generatePrescription/${id}`,
-                "_blank"
-            );
+            const response = await fetch(`/saveConsultation/${selectedVisit.visitId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    diagnosis: document.getElementById('diagnosis').value,
+                    medicines: document.getElementById('medicines').value,
+                    advice: document.getElementById('advice').value
+                })
+            });
 
+            alert(await response.text());
+
+            selectedVisit = null;
+            await loadQueue();
+
+            if (visits.length > 0) {
+                selectPatient(visits[0].visitId);
+            } else {
+                document.getElementById('patientName').innerText = 'No Waiting Patients';
+            }
         }
 
-        loadVisits();
+        function generatePrescription() {
+            if (!selectedVisit) return;
+            window.open(`/generatePrescription/${selectedVisit.visitId}`, '_blank');
+        }
 
+        loadQueue();
+        setInterval(loadQueue, 10000);
     </script>
-
 </body>
 
 </html>

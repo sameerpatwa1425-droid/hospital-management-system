@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-
         * {
 
             margin: 0;
@@ -169,7 +168,7 @@
             border-radius: 10px;
 
             box-shadow:
-                0px 2px 8px rgba(0,0,0,0.1);
+                0px 2px 8px rgba(0, 0, 0, 0.1);
 
         }
 
@@ -221,7 +220,7 @@
             border-radius: 16px;
 
             box-shadow:
-                0px 4px 12px rgba(0,0,0,0.08);
+                0px 4px 12px rgba(0, 0, 0, 0.08);
 
             transition: 0.3s;
 
@@ -262,7 +261,7 @@
             border-radius: 16px;
 
             box-shadow:
-                0px 4px 12px rgba(0,0,0,0.08);
+                0px 4px 12px rgba(0, 0, 0, 0.08);
 
         }
 
@@ -291,7 +290,6 @@
             }
 
         }
-
     </style>
 
 </head>
@@ -338,13 +336,8 @@
 
             <div class="top-actions">
 
-                <button
-                    class="theme-btn"
-                    onclick="toggleTheme()"
-                >
-
-                    🌙 Toggle Theme
-
+                <button class="theme-btn" onclick="toggleTheme()">
+                    Toggle Theme
                 </button>
 
                 <div class="admin-box">
@@ -446,12 +439,12 @@
             document.getElementById(
                 "totalRevenue"
             ).innerText =
-                "₹" + data.totalRevenue;
+                "\u20B9" + data.totalRevenue;
 
             document.getElementById(
                 "pendingPayments"
             ).innerText =
-                "₹" + data.pendingPayments;
+                "\u20B9" + data.pendingPayments;
 
             document.getElementById(
                 "deletedRecords"

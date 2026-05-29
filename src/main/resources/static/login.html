@@ -6,7 +6,6 @@
     <title>Hospital Login</title>
 
     <style>
-
         * {
 
             margin: 0;
@@ -23,11 +22,9 @@
             justify-content: center;
             align-items: center;
 
-            background: linear-gradient(
-                to right,
-                #1e3a8a,
-                #2563eb
-            );
+            background: linear-gradient(to right,
+                    #1e3a8a,
+                    #2563eb);
 
         }
 
@@ -37,7 +34,7 @@
             background-color: white;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0px 5px 20px rgba(0,0,0,0.2);
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
 
         }
 
@@ -98,7 +95,6 @@
             font-size: 14px;
 
         }
-
     </style>
 
 </head>
@@ -109,13 +105,9 @@
 
         <h1>Hospital Management System</h1>
 
-        <input type="text"
-               id="username"
-               placeholder="Enter Username">
+        <input type="text" id="username" placeholder="Enter Username">
 
-        <input type="password"
-               id="password"
-               placeholder="Enter Password">
+        <input type="password" id="password" placeholder="Enter Password">
 
         <button onclick="login()">
 
@@ -165,20 +157,18 @@
 
             /* ADMIN */
 
-            if(
+            if (
                 username === "admin"
                 &&
                 password === "admin123"
             ) {
-
                 window.location.href =
-                    "reception-dashboard.html";
-
+                    "admin-dashboard.html";
             }
 
             /* RECEPTION */
 
-            else if(
+            else if (
                 username === "reception"
                 &&
                 password === "reception123"
@@ -191,7 +181,7 @@
 
             /* DOCTOR */
 
-            else if(
+            else if (
                 username === "doctor"
                 &&
                 password === "doctor123"
@@ -204,7 +194,7 @@
 
             /* PHARMACY */
 
-            else if(
+            else if (
                 username === "pharmacy"
                 &&
                 password === "pharmacy123"
